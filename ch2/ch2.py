@@ -1,11 +1,12 @@
-# ¸ĞÖª»ú ¶ş·ÖÀàÏßĞÔ·ÖÀàÄ£ĞÍ  f(x) = (w x + b )
-# ·ÖÀë³¬Æ½Ãæ  w x + b = 0
-# ×îĞ¡»¯ËğÊ§º¯Êı  min w,b  L(w,b) = - ¦²xi ¡Ê M  yi( w xi + b )
-# ËğÊ§º¯Êı¶ÔÓ¦ÓÚÎó·ÖÀàµãµ½·ÖÀë³¬Æ½ÃæµÄ×Ü¾àÀë
+#-*- coding:utf-8 -*-
+# æ„ŸçŸ¥æœº äºŒåˆ†ç±»çº¿æ€§åˆ†ç±»æ¨¡å‹  f(x) = (w x + b )
+# åˆ†ç¦»è¶…å¹³é¢  w x + b = 0
+# æœ€å°åŒ–æŸå¤±å‡½æ•°  min w,b  L(w,b) = - Î£xi âˆˆ M  yi( w xi + b )
+# æŸå¤±å‡½æ•°å¯¹åº”äºè¯¯åˆ†ç±»ç‚¹åˆ°åˆ†ç¦»è¶…å¹³é¢çš„æ€»è·ç¦»
 
 
 '''
-¸ĞÖª»úÑ§Ï°Ëã·¨ÊÇ»ùÓÚËæ»úÌİ¶ÈÏÂ½µ·¨µÄ¶ÔËğÊ§º¯ÊıµÄ×îÓÅ»¯Ëã·¨£¬ÓĞÔ­Ê¼ĞÎÊ½ºÍ¶ÔÅ¼ĞÎÊ½¡£Ëã·¨¼òµ¥ÇÒÒ×ÓÚÊµÏÖ¡£Ô­Ê¼ĞÎÊ½ÖĞ£¬Ê×ÏÈÈÎÒâÑ¡È¡Ò»¸ö³¬Æ½Ãæ£¬È»ºóÓÃÌİ¶ÈÏÂ½µ·¨²»¶Ï¼«Ğ¡»¯Ä¿±êº¯Êı¡£ÔÚÕâ¸ö¹ı³ÌÖĞÒ»´ÎËæ»úÑ¡È¡Ò»¸öÎó·ÖÀàµãÊ¹ÆäÌİ¶ÈÏÂ½µ¡£
+æ„ŸçŸ¥æœºå­¦ä¹ ç®—æ³•æ˜¯åŸºäºéšæœºæ¢¯åº¦ä¸‹é™æ³•çš„å¯¹æŸå¤±å‡½æ•°çš„æœ€ä¼˜åŒ–ç®—æ³•ï¼Œæœ‰åŸå§‹å½¢å¼å’Œå¯¹å¶å½¢å¼ã€‚ç®—æ³•ç®€å•ä¸”æ˜“äºå®ç°ã€‚åŸå§‹å½¢å¼ä¸­ï¼Œé¦–å…ˆä»»æ„é€‰å–ä¸€ä¸ªè¶…å¹³é¢ï¼Œç„¶åç”¨æ¢¯åº¦ä¸‹é™æ³•ä¸æ–­æå°åŒ–ç›®æ ‡å‡½æ•°ã€‚åœ¨è¿™ä¸ªè¿‡ç¨‹ä¸­ä¸€æ¬¡éšæœºé€‰å–ä¸€ä¸ªè¯¯åˆ†ç±»ç‚¹ä½¿å…¶æ¢¯åº¦ä¸‹é™ã€‚
 '''
 
 import pandas as pd
@@ -15,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # load data
 iris = load_iris()
-df = pd.DataFrame(iris.data, colomns = iris.feature_names)
+df = pd.DataFrame(iris.data, columns = iris.feature_names)
 df['label'] = iris.target
 
 df.columns = ['sepal length', 'sepal width', 'petal length', 'petal width', 'label']
@@ -29,3 +30,32 @@ plt.legend()
 plt.show()
 
 data = np.array(df.iloc[:100], [0, 1, -1])
+X, y = data[:,:-1], data[:,-1]
+y = np.array([1 if i == 1 else -1 for i in y])
+
+
+# Perceptron
+# æ•°æ®çº¿æ€§å¯åˆ†ï¼ŒäºŒåˆ†ç±»æ•°æ®
+# æ­¤å¤„ä¸ºä¸€å…ƒä¸€æ¬¡çº¿æ€§æ–¹ç¨‹
+
+class Model:
+    def __init__(self):
+        self.w = np.ones(len(data[0]) -1, dtype=np.float32)
+        self.b = 0
+        self.l_rate = 0.1
+        # self.data = data
+
+    def sign(self, x, w, b):
+        y = np.dot(x, w) + b
+        return y
+
+    # éšæœºæ¢¯åº¦ä¸‹é™
+    def fit(self, X_train, y_train):
+        is_wrong = False
+        while not is_wrong:
+            wrong_count = 0
+            for d in range(len(X_train)):
+                X = X_train[d]
+                y = y_train[d]
+                if y * self.sign(X, self.w, self.b) <= 0:
+                    self.w = self.w
