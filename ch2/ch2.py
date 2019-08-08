@@ -21,18 +21,32 @@ df['label'] = iris.target
 
 df.columns = ['sepal length', 'sepal width', 'petal length', 'petal width', 'label']
 df.label.value_counts()
+# 2    50
+# 1    50
+# 0    50
 
-plt.scatter(df[:50]['sepal length'], df[:50]['sepal width'], label='0')
-plt.scatter(df[50:100]['sepal length'], df[50:100]['sepal width'], label='1')
+plt.scatter(df[:50]['sepal length'], df[:50]['sepal width'], label='0')    # 0-50个
+plt.scatter(df[50:100]['sepal length'], df[50:100]['sepal width'], label='1')  #50-100
 plt.xlabel('sepal length')
 plt.ylabel('sepal width')
 plt.legend()
 plt.show()
 
-data = np.array(df.iloc[:100], [0, 1, -1])
-X, y = data[:,:-1], data[:,-1]
+data = np.array(df.iloc[:100, [0, 1, -1]])  #选前一百行的第一列 第二列 倒数第一列
+X, y = data[:,:-1], data[:,-1]  # x的数据包括target之前的每一列， y是target那一列
+
+# [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+#  0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+#  0. 0. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+#  1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+#  1. 1. 1. 1.]
 y = np.array([1 if i == 1 else -1 for i in y])
 
+# [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+#  -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+#  -1 -1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#   1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#   1  1  1  1]
 
 # Perceptron
 # 数据线性可分，二分类数据
@@ -40,10 +54,11 @@ y = np.array([1 if i == 1 else -1 for i in y])
 
 class Model:
     def __init__(self):
-        self.w = np.ones(len(data[0]) -1, dtype=np.float32)
+        self.w = np.ones(len(data[0]) -1, dtype=np.float32)  #长度去除target那一列  所以减1
         self.b = 0
         self.l_rate = 0.1
         # self.data = data
+        print(self.w)
 
     def sign(self, x, w, b):
         y = np.dot(x, w) + b
@@ -51,11 +66,62 @@ class Model:
 
     # 随机梯度下降
     def fit(self, X_train, y_train):
-        is_wrong = False
-        while not is_wrong:
-            wrong_count = 0
-            for d in range(len(X_train)):
+        is_Find = False
+        while not is_Find:
+            for d in range(len(X_train)):  # 对每一个训练数据
                 X = X_train[d]
                 y = y_train[d]
-                if y * self.sign(X, self.w, self.b) <= 0:
-                    self.w = self.w
+                if y * self.sign(X, self.w, self.b) <= 0:  #  分类错的样本  这里选的是第一个
+                    self.w = self.w + self.l_rate * np.dot(y,X)
+                    self.b = self.b + self.l_rate * y
+                    break
+                elif d == len(X_train) - 1 :
+                    is_Find = True
+            print('perceptron - one step')
+        return is_Find
+
+    def score(self):
+        pass
+
+perceptron = Model()
+while(True):
+    if(perceptron.fit(X, y)):
+        break
+
+
+
+print(perceptron.w[0])
+print(perceptron.w[1])
+
+x_points = np.linspace(4,7,10)
+y_ = -(perceptron.w[0] * x_points + perceptron.b) / perceptron.w[1]
+plt.plot(x_points, y_)
+
+
+plt.plot(data[:50, 0], data[:50, 1], 'bo', color='blue', label='0')
+plt.plot(data[50:100, 0], data[50:100, 1], 'bo', color='orange', label='1')
+plt.xlabel('sepal length')
+plt.ylabel('sepal width')
+plt.legend()
+plt.show()
+
+from sklearn.linear_model import Perceptron
+clf = Perceptron(fit_intercept=False, max_iter=1000, shuffle=False)
+clf.fit(X,y)
+
+# Weights assigned to the features.
+print(clf.coef_)
+
+# 截距 Constants in decision function.
+print(clf.intercept_)
+
+x_ponits = np.arange(4, 8)
+y_ = -(clf.coef_[0][0]*x_ponits + clf.intercept_)/clf.coef_[0][1]
+plt.plot(x_ponits, y_)
+
+plt.plot(data[:50, 0], data[:50, 1], 'bo', color='blue', label='0')
+plt.plot(data[50:100, 0], data[50:100, 1], 'bo', color='orange', label='1')
+plt.xlabel('sepal length')
+plt.ylabel('sepal width')
+plt.legend()
+plt.show()
