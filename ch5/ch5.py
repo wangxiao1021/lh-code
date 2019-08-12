@@ -1,9 +1,6 @@
-#-*-coding:utf-8-*-
+#-*-coding:GB18030-*-
 # 决策树学习算法包括3部分：特征选择、树的生成和树的剪枝。常用的算法有ID3、 C4.5和CART。
-#coding=utf8
-import sys
-reload(sys)
-sys.setdefaultxxxx("utf8")
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -50,7 +47,6 @@ def calc_ent(datasets):
             label_count[label] = 0
         label_count[label] += 1
     ent = -sum( [ (p/data_length) * log(p/data_length,2)    for p in label_count.values()])
-    print(ent)
     return ent
 
 # 经验条件熵
@@ -63,7 +59,7 @@ def cond_ent(datasets, axis = 0):
             feature_sets[feature] = []
         feature_sets[feature].append(datasets[i])
     cond_ent = sum([(len(p)/data_length) * calc_ent(p) for p in feature_sets.values()])
-    return cond_ent()
+    return cond_ent
 
 
 # 信息增益
@@ -73,14 +69,122 @@ def info_gain(ent, cond_ent):
 def info_gain_train(datasets):
     count = len(datasets[0]) - 1
     ent = calc_ent(datasets)
+#     ent = entropy(datasets)
     best_feature = []
     for c in range(count):
-        c_info_gain = info_gain(ent,cond_ent(datasets,axis=c))
-        best_feature.append((c,c_info_gain))
-        print('特征({}) - info_gain - {:.3f}').format(labels[c], c_info_gain)
-    #比较大小
-        best_ = max(best_feature, key=lambda x:x[-1])
-        return '特征({})的信息增益最大，选择为根节点特征'.format(labels[best_[0]])
+        c_info_gain = info_gain(ent, cond_ent(datasets, axis=c))
+        best_feature.append((c, c_info_gain))
+        print('特征({}) - info_gain - {:.3f}'.format(labels[c], c_info_gain))
+    # 比较大小
+    best_ = max(best_feature, key=lambda x: x[-1])
+    return '特征({})的信息增益最大，选择为根节点特征'.format(labels[best_[0]])
 
-info_gain_train(np.array(datasets))
+print(info_gain_train(np.array(datasets)))
+
+# ID3
+class Node:
+    def __init__(self, root=True, label=None, feature_name=None, feature = None):
+        self.root = root
+        self.label = label
+        self.feature_name = feature_name
+        self.feature = feature
+        self.tree = {}
+        self.result = {
+            'label': self.label,
+            'feature':self.feature,
+            'tree': self.tree
+        }
+
+    def __repr__(self):
+        return '{}'.format(self.result)
+
+    def add_node(self, val, node):
+        self.tree[val] = node
+
+    def predict(self, features):
+        if self.root is True:
+            return self.label
+        return self.tree[features[self.feature]].predict(features) #???
+
+class DTree:
+    def __init__(self, epsilon=0.1):
+        self.epsilon = epsilon
+        self._tree = {}
+
+    # shang
+    @staticmethod
+    def calc_ent(datasets):
+        data_length = len(datasets)
+        label_count = {}
+        for i in range(data_length):
+            label = data_length[i][-1]
+            if label not in label_count:
+                label_count[label] = 0
+            label_count[label] +=1
+        ent = -sum([(p/data_length) * log(p/data_length, 2) for p in label_count.values()])
+        return ent
+
+    # 经验条件熵
+    def cond_ent(self, datasets, axis =0):
+        data_length = len(datasets)
+        feature_sets = {}
+        for i in range(data_length):
+            feature = datasets[i][axis]
+            if feature not in feature_sets:
+                feature_sets[feature] = []
+            feature_sets[feature].append(datasets[i])
+        cond_ent = sum([(p / data_length)* self.calc_ent(p)] for p in feature_sets.values())
+        return cond_ent
+
+    # 信息增益
+    @staticmethod
+    def info_gain(ent, cond_ent):
+        return ent - cond_ent
+
+    def info_gain_train(self, datasets):
+        feature_count = len(datasets[0] - 1)
+        ent = self.calc_ent(datasets)
+        best_feature = []
+        for c in range(feature_count):
+            c_info_gain  = self.info_gain(ent, self.cond_ent(datasets, axis=c))
+            best_feature.append((c, c_info_gain))
+        # 比较大小
+        best_ = max(best_feature, key=lambda x: x[-1])
+        return best_
+
+    def train(self, train_data):
+        '''
+        :param train_data:  数据集D(DataFrame格式), 特征集A, 阈值eta
+        :return: 决策树T
+        '''
+
+        _, y_train, features = train_data.iloc[:, :-1], \
+                               train_data.iloc[:, -1], \
+                               train_data.columns[: -1]
+
+        # 1,若D中实例属于同一类Ck，则T为单节点树，并将类Ck作为结点的类标记，返回T
+        if len(y_train.value_counts()) == 1:
+            return Node(root=True, label=y_train.iloc[0])
+
+        # 2, 若A为空，则T为单节点树，将D中实例树最大的类Ck作为该节点的类标记，返回T
+        if len(features) == 0:
+            return Node(
+                root=True,
+                label = y_train.value_counts().sort_values(ascending=False).index[0])
+
+        # 3,计算最大信息增益 同5.1,Ag为信息增益最大的特征
+        max_feature, max_infro_gain = self.info_gain_train(np.array(train_data))
+        max_feature_name = features[max_feature]
+
+        # 4,Ag的信息增益小于阈值eta,则置T为单节点树，并将D中是实例数最大的类Ck作为该节点的类标记，返回T
+        if max_infro_gain < self.epsilon:
+            return Node(
+                root=True,
+                label = y_train.value_counts().sort_values(ascending=False).index[0]
+            )
+
+        # 5,构建Ag子集
+        node_tree = Node(
+            root=False, feature_name=max_feature_name, feature=max_feature
+        )
 
