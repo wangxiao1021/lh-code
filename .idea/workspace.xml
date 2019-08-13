@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24df8a38-e530-4c95-ba6a-bb9660006f2f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/lh-code.iml" afterPath="$PROJECT_DIR$/.idea/lh-code.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ch5/ch5.py" afterPath="$PROJECT_DIR$/ch5/ch5.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ch6/ch6.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ch5/mytree.pdf" afterPath="$PROJECT_DIR$/ch5/mytree.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,13 +15,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ch5.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ch5.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ch5/ch5.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="230" column="18" lean-forward="false" selection-start-line="230" selection-start-column="18" selection-end-line="230" selection-end-column="18" />
+            <state relative-caret-position="4338">
+              <caret line="241" column="24" lean-forward="true" selection-start-line="241" selection-start-column="24" selection-end-line="241" selection-end-column="24" />
               <folding>
                 <element signature="e#75#93#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ch6.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ch6/ch6.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+              <folding>
+                <element signature="e#22#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,6 +89,7 @@
         <option value="$PROJECT_DIR$/ch3/ch3.py" />
         <option value="$PROJECT_DIR$/ch4/ch4.py" />
         <option value="$PROJECT_DIR$/ch5/ch5.py" />
+        <option value="$PROJECT_DIR$/ch6/ch6.py" />
       </list>
     </option>
   </component>
@@ -85,6 +97,9 @@
     <option name="x" value="886" />
     <option name="width" value="1041" />
     <option name="height" value="1093" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -109,16 +124,6 @@
             <path>
               <item name="lh-code" type="b2602c69:ProjectViewProjectNode" />
               <item name="lh-code" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lh-code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lh-code" type="462c0819:PsiDirectoryNode" />
-              <item name="ch4" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lh-code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lh-code" type="462c0819:PsiDirectoryNode" />
-              <item name="ch5" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -149,24 +154,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ch5">
-    <configuration name="ch1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ch1" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="lh-code" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ch1/ch1.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
+  <component name="RunManager" selected="Python.ch6">
     <configuration name="ch2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -235,20 +223,37 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+    <configuration name="ch6" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ch6" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="lh-code" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ch6/ch6.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.ch1" />
-      <item index="1" class="java.lang.String" itemvalue="Python.ch2" />
-      <item index="2" class="java.lang.String" itemvalue="Python.ch3" />
-      <item index="3" class="java.lang.String" itemvalue="Python.ch4" />
-      <item index="4" class="java.lang.String" itemvalue="Python.ch5" />
+      <item index="0" class="java.lang.String" itemvalue="Python.ch2" />
+      <item index="1" class="java.lang.String" itemvalue="Python.ch3" />
+      <item index="2" class="java.lang.String" itemvalue="Python.ch4" />
+      <item index="3" class="java.lang.String" itemvalue="Python.ch5" />
+      <item index="4" class="java.lang.String" itemvalue="Python.ch6" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.ch5" />
-        <item index="1" class="java.lang.String" itemvalue="Python.ch4" />
-        <item index="2" class="java.lang.String" itemvalue="Python.ch3" />
-        <item index="3" class="java.lang.String" itemvalue="Python.ch2" />
-        <item index="4" class="java.lang.String" itemvalue="Python.ch1" />
+        <item index="0" class="java.lang.String" itemvalue="Python.ch6" />
+        <item index="1" class="java.lang.String" itemvalue="Python.ch5" />
+        <item index="2" class="java.lang.String" itemvalue="Python.ch4" />
+        <item index="3" class="java.lang.String" itemvalue="Python.ch3" />
+        <item index="4" class="java.lang.String" itemvalue="Python.ch2" />
       </list>
     </recent_temporary>
   </component>
@@ -457,10 +462,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ch5/ch5.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="230" column="18" lean-forward="false" selection-start-line="230" selection-start-column="18" selection-end-line="230" selection-end-column="18" />
+        <state relative-caret-position="4338">
+          <caret line="241" column="24" lean-forward="true" selection-start-line="241" selection-start-column="24" selection-end-line="241" selection-end-column="24" />
           <folding>
             <element signature="e#75#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ch6/ch6.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+          <folding>
+            <element signature="e#22#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
