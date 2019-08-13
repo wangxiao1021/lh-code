@@ -64,3 +64,30 @@ lr_clf = LogisticReressionClassifier()
 lr_clf.fit(X_train, y_train)
 print(lr_clf.score(X_test, y_test))
 
+x_points = np.arange(4, 8)
+y_ = -(lr_clf.weights[1]*x_points + lr_clf.weights[0]) / lr_clf.weights[2]
+plt.plot(x_points, y_)  # ∑÷¿Î∆Ω√Ê
+
+#lr_clf.show_graph()
+plt.scatter(X[:50,0],X[:50,1], label='0')
+plt.scatter(X[50:,0],X[50:,1], label='1')
+plt.legend()
+plt.show()
+
+from sklearn.linear_model import LogisticRegression
+clf = LogisticRegression(max_iter=200)
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test))
+print(clf.coef_, clf.intercept_)
+
+x_ponits = np.arange(4, 8)
+y_ = -(clf.coef_[0][0]*x_ponits + clf.intercept_)/clf.coef_[0][1]
+plt.plot(x_ponits, y_)
+
+plt.plot(X[:50, 0], X[:50, 1], 'bo', color='blue', label='0')
+plt.plot(X[50:, 0], X[50:, 1], 'bo', color='orange', label='1')
+plt.xlabel('sepal length')
+plt.ylabel('sepal width')
+plt.legend()
+plt.show()
+
