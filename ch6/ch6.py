@@ -134,13 +134,13 @@ class MaxEntropy:
             self._xyID[xy] = i
             self._IDxy[i] = xy
 
-    def _Zx(self, X):  # 计算每个Z(x)的值  正则化用的吧
+    def _Zx(self, X):  # 计算每个Z(x)的值
         zx = 0
         for y in self._Y:
             ss = 0
             for x in X:
                 if(x, y) in self._numXY:
-                    ss += self._w[self._xyID[(x, y)]]  #???
+                    ss += self._w[self._xyID[(x, y)]]
             zx += math.exp(ss)
         return zx
 
@@ -153,7 +153,7 @@ class MaxEntropy:
         pyx = math.exp(ss) / zx
         return pyx
 
-#  以下没看
+#
     def _model_ep(self, index):  # 计算特征函数fi关于模型的期望
         x, y = self._IDxy[index]
         ep = 0
