@@ -128,8 +128,73 @@ class MaxEntropy:
         self._lastw = self._w[:]
 
         self._Ep_ = [0] * self._n
+        # enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中。
         for i, xy in enumerate(self._numXY): # 计算特征函数fi关于经验分布的期望
-            self._Ep_[i] = self._numXY[xy]
+            self._Ep_[i] = self._numXY[xy] / self._N
+            self._xyID[xy] = i
+            self._IDxy[i] = xy
+
+    def _Zx(self, X):  # 计算每个Z(x)的值  正则化用的吧
+        zx = 0
+        for y in self._Y:
+            ss = 0
+            for x in X:
+                if(x, y) in self._numXY:
+                    ss += self._w[self._xyID[(x, y)]]  #???
+            zx += math.exp(ss)
+        return zx
+
+    def _model_pyx(self, y, X):  # 计算每个P(y|x)
+        zx = self._Zx(X)
+        ss = 0
+        for x in X:
+            if (x, y) in self._numXY:
+                ss += self._w[self._xyID[(x, y)]]   #???
+        pyx = math.exp(ss) / zx
+        return pyx
+
+#  以下没看
+    def _model_ep(self, index):  # 计算特征函数fi关于模型的期望
+        x, y = self._IDxy[index]
+        ep = 0
+        for sample in self._samples:
+            if x not in sample:
+                continue
+            pyx = self._model_pyx(y, sample)
+            ep += pyx / self._N
+        return ep
+
+    def _convergence(self):  # 判断是否全部收敛
+        for last, now in zip(self._lastw, self._w):
+            if abs(last - now) >= self._EPS:
+                return False
+        return True
+
+    def predict(self, X):  # 计算预测概率
+        Z = self._Zx(X)
+        result = {}
+        for y in self._Y:
+            ss = 0
+            for x in X:
+                if (x, y) in self._numXY:
+                    ss += self._w[self._xyID[(x, y)]]
+            pyx = math.exp(ss) / Z
+            result[y] = pyx
+        return result
+
+    def train(self, maxiter=1000):  # 训练数据
+        for loop in range(maxiter):  # 最大训练次数
+            print("iter:%d" % loop)
+            self._lastw = self._w[:]
+            for i in range(self._n):
+                ep = self._model_ep(i)  # 计算第i个特征的模型期望
+                self._w[i] += math.log(self._Ep_[i] / ep) / self._C  # 更新参数
+            print("w:", self._w)
+            if self._convergence():  # 判断是否收敛
+                break
+
+
+
 
 
 dataset = [['no', 'sunny', 'hot', 'high', 'FALSE'],
@@ -149,3 +214,6 @@ dataset = [['no', 'sunny', 'hot', 'high', 'FALSE'],
 
 maxent = MaxEntropy()
 maxent.loadData(dataset)
+maxent.train()
+x = ['overcast', 'mild', 'high', 'FALSE']
+print('predict:', maxent.predict(x))
